@@ -8,7 +8,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # Required for npm provenance
+      id-token: write  # Required for OIDC trusted publishing
       contents: read
 
     steps:
@@ -29,7 +29,5 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # Token required - create at: https://www.npmjs.com/settings/tokens
-        # Add as NPM_TOKEN secret in repo settings
+        # No token needed - uses OIDC trusted publishing
+        # Configured at: https://www.npmjs.com/package/@templatefox/sdk (Settings → Trusted Publishers)
